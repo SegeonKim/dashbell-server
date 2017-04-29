@@ -14,7 +14,7 @@ router.get('/test', dash.test);
 
  
 var server = http.createServer(function(req, res) {
-	router(req, res, finalhandler(req, res))
+	router(req, res, finalhandler(req, res));
 });
  
 server.listen(PORT);
