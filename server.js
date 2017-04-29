@@ -3,7 +3,7 @@ var http  = require('http');
 var Router = require('router');
 var dash = require('./dash.js');
 
-var PORT = 3000;
+var PORT = 8080;
  
 var router = Router();
 router.get('/', function (req, res) {
