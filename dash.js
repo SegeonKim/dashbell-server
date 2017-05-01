@@ -1,4 +1,8 @@
 var mecab = require('mecab-ffi');
+var speech = require('@google-cloud/speech')({
+	projectId: 'capstone-dash',
+	keyFilename: './dashbell_server_key.json'
+});
 
 /*
 var result = mecab.parseSync(paragraph);
@@ -12,8 +16,8 @@ mecab.extractNounMap(paragraph, function(err, result) {
 
 
 module.exports = {
-	test: function(req, res) {
-		var paragraph = '대시 10cm 앞으로 가';	
+	test: function(req, res)
+		var paragraph = '대시 10cm 앞으로 가';
 		var result = [];
 		// 형태소 분석
 		mecab.parse(paragraph, function(err, res) {
@@ -27,7 +31,26 @@ module.exports = {
 
 		res.end('test!');
 
+	},
+
+	google_api: function(req, res) { // 임시 함수
+		var encoded_data = '';
+		var config = {
+			'encoding':'FLAC',
+			'sampleRateHertz':16000,
+			'languageCode':'ko-KR'
+		};
+		var content = {
+			'content': encoded_data
+		};
+
+		speech.recognize(content, config, function(err, transcript, apiResponse) {
+			if (!err) {
+				console.log('transcript : ', transcript);
+				console.log('apiResponse : ', apiResponse);
+			} else {
+				console.log('err!', err);
+			}
+		});
 	}
 };
-
-
