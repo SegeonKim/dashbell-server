@@ -16,7 +16,7 @@ mecab.extractNounMap(paragraph, function(err, result) {
 
 
 module.exports = {
-	test: function(req, res)
+	test: function(req, res) {
 		var paragraph = '대시 10cm 앞으로 가';
 		var result = [];
 		// 형태소 분석
