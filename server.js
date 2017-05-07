@@ -11,7 +11,7 @@ router.get('/', function (req, res) {
 	res.end('Hello World!');
 });
 router.get('/test', dash.test);
-router.get('/transcribe', dash.transcribe);
+router.post('/transcribe', dash.transcribe);
 
 
 var server = http.createServer(function(req, res) {
