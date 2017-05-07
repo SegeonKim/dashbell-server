@@ -52,5 +52,21 @@ module.exports = {
 				console.log('err!', err);
 			}
 		});
+	},
+
+	transcribe: function(req, res) {
+		var msg = req.body.msg;
+		var security_key = req.body.security_key;
+		var result = {
+			result: false,
+			key_code: 0
+		}
+		console.log('security_key : ', security_key);
+
+		if (security_key != 'ZGFzaGJlbGxwcm9qZWN0') {
+			res.json(result);
+		} else {
+			res.json(result);
+		}
 	}
 };
