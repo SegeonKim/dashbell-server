@@ -55,7 +55,7 @@ module.exports = {
 	},
 
 	transcribe: function(req, res) {
-		console.log('req : ', req);
+		console.log('body : ', req.body);
 		res.json({result: false});
 		// var msg = req.body.msg;
 		// var security_key = req.body.security_key;
