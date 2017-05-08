@@ -1,5 +1,4 @@
 var connect = require('connect');
-var connectRoute = require('connect-route');
 var finalhandler = require('finalhandler');
 var http  = require('http');
 var bodyParser = require('body-parser');
@@ -20,6 +19,15 @@ app.use(function(req, res) {
 router.get('/', function(req, res) {
   res.end('test');
 });
-router.get('/transcribe', dash.transcribe);
+router.post('/transcribe', dash.transcribe);
+
+// var fs = require('fs');
+// fs.readFile('../base', 'utf-8', function(err, data) {
+// 	dash.transcribe({body: {
+// 		msg: data,
+// 		security_key: 'ZGFzaGJlbGxwcm9qZWN0'
+// 	}});
+// });
+
 
 http.createServer(app).listen(PORT);
