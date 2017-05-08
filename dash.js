@@ -32,6 +32,8 @@ module.exports = {
 				}, function(msg, next) {
 					self.do_mecab(msg, next); // 형태소 분석
 				}, function(msg, next) {
+					self.check_stop(msg, next);
+				}, function(msg, next) {
 					console.log('형태소 : ', msg);
 					self.parse(msg, next);
 				}, function(msg, next) {
@@ -43,6 +45,9 @@ module.exports = {
 					// result.key_code = data.key_code;
 				} else if (err && sentence) {
 					self.leave_log(err + '\n' + sentence + '\n');
+				} else if (err && err == 'stop') {
+					result.result = true;
+					result.key_code = 400;
 				}
 				// res.end(JSON.stringify(result));
 				res.end(JSON.stringify(data));
@@ -94,14 +99,7 @@ module.exports = {
 			option: '',
 			action: ''
 		};
-		var is_light = null;
-
-		if (msg.indexOf('멈춰') > -1) {
-			callback(null, {
-				key_code: 400
-			});
-			return;
-		}
+		var is_light = null
 
 		async.waterfall([
 			function(next) {
@@ -345,6 +343,22 @@ module.exports = {
 			}
 		}, function(exist) {
 			callback(unit || 'cm');
+		});
+	},
+
+	check_stop: function(msg, callback) {
+		async.map(msg, function(data, next) {
+			if (classification_source.stop.indexOf(data) > -1) {
+				next(true);
+			} else {
+				next();
+			}
+		}, function(stop) {
+			if (stop) {
+				callback('stop');
+			} else {
+				callback(null, msg);
+			}
 		});
 	},
 

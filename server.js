@@ -10,8 +10,8 @@ var PORT = 8080;
 var app = connect();
 var router = Router();
 
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.use(bodyParser.json({limit: '50mb'}));
 app.use(function(req, res) {
 	router(req, res, finalhandler(req, res));
 });
