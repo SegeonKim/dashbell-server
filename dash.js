@@ -368,6 +368,10 @@ module.exports = {
 	},
 
 	leave_log: function(sentence) {
-		fs.appendFile('./unparsed_log.txt', sentence + '\n', function() {});
+		fs.appendFile(__dirname + '/unparsed_log.txt', sentence + '\n', function(err) {
+			if (err) {
+				console.log('Fail to write err log');
+			}
+		});
 	}
 };
