@@ -191,7 +191,7 @@ module.exports = {
 				}
 			}, function(is_change) {
 				if (is_change) {
-					callback('light_change');
+					callback(null, 'light_change');
 				} else {
 					async.map(classification_source.action.light_on, function(on, next) {
 						if (msg.indexOf(on) > -1) {
