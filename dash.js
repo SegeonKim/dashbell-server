@@ -1,7 +1,7 @@
 var mecab = require('mecab-ffi');
 var speech = require('@google-cloud/speech')({
 	projectId: 'capstone-dash',
-	keyFilename: './dashbell_server_key.json'
+	keyFilename: __dirname + '/dashbell_server_key.json'
 });
 var fs = require('fs');
 var async = require('async');
@@ -25,8 +25,7 @@ module.exports = {
 			async.waterfall([
 				function(next) {
 					self.google_speech_api(msg, next); // google speech api로 목소리 분석
-				},
-				function(str, next) {
+				}, function(str, next) {
 					console.log('Sentence : ',str);
 					sentence = str;
 					next(null, str);

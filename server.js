@@ -19,7 +19,9 @@ app.use(function(req, res) {
 router.get('/', function(req, res) {
   res.end('test');
 });
-router.post('/transcribe', dash.transcribe);
+router.post('/transcribe', function(req, res) {
+	dash.transcribe(req, res);
+});
 
 // var fs = require('fs');
 // fs.readFile('../base', 'utf-8', function(err, data) {
