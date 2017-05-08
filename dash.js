@@ -43,11 +43,11 @@ module.exports = {
 				if (!err) {
 					// result.result = true;
 					// result.key_code = data.key_code;
-				} else if (err && sentence) {
-					self.leave_log(err + '\n' + sentence + '\n');
 				} else if (err && err == 'stop') {
 					result.result = true;
 					result.key_code = 400;
+				} else if (err && sentence) {
+					self.leave_log(err + '\n' + sentence + '\n');
 				}
 				// res.end(JSON.stringify(result));
 				res.end(JSON.stringify(data));
@@ -213,7 +213,7 @@ module.exports = {
 								if (is_off) {
 									callback('light_off');
 								} else {
-									callback(true);
+									callback('get_action no light action:221');
 								}
 							});
 						}
@@ -241,7 +241,7 @@ module.exports = {
 						if (is_turn) {
 							callback(null, 'turn');
 						} else {
-							callback(true);
+							callback('get_action no turn no move:250');
 						}
 					});
 				}
@@ -273,11 +273,11 @@ module.exports = {
 					if (checked) {
 						callback(null, color);
 					} else {
-						callback('no_color');
+						callback('get_color no_color:282');
 					}
 				});
 			} else {
-				callback('no_color');
+				callback('get_color no color:286');
 			}
 		});
 	},
@@ -304,7 +304,7 @@ module.exports = {
 			if (find) {
 				callback(null, direction);
 			} else {
-				callback('no_direction');
+				callback('get_direction no direction:313');
 			}
 		});
 	},

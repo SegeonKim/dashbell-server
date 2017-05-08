@@ -23,15 +23,6 @@ router.post('/transcribe', function(req, res) {
 	dash.transcribe(req, res);
 });
 
-// var fs = require('fs');
-// fs.readFile('../base', 'utf-8', function(err, data) {
-// 	dash.transcribe({body: {
-// 		msg: data,
-// 		security_key: 'ZGFzaGJlbGxwcm9qZWN0'
-// 	}});
-// });
-
-
 http.createServer(app).listen(PORT);
 
 process.on('uncaughtException', function (err) {
