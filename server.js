@@ -31,3 +31,8 @@ router.post('/transcribe', dash.transcribe);
 
 
 http.createServer(app).listen(PORT);
+
+process.on('uncaughtException', function (err) {
+  console.log('Error : ', err);
+	dash.leave_log(err + '\n');
+});

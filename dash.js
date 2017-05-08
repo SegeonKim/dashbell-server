@@ -53,8 +53,7 @@ module.exports = {
 
 	google_speech_api: function(msg, callback) {
 		var config = {
-			// 'encoding':'LINEAR16',
-			'encoding': 'FLAC',
+			'encoding':'LINEAR16',
 			'sampleRateHertz':16000,
 			'languageCode':'ko-KR'
 		};
