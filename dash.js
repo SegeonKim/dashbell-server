@@ -410,6 +410,7 @@ module.exports = {
 				right: -90
 			},
 			23: {
+				front: 0,
 				up: -20,
 				down: 7.5
 			},
