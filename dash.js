@@ -216,7 +216,7 @@ module.exports = {
 								}
 							}, function(is_off) {
 								if (is_off) {
-									callback('light_off');
+									callback(null, 'light_off');
 								} else {
 									callback('get_action no light action:221');
 								}
