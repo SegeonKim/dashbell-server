@@ -394,7 +394,7 @@ module.exports = {
 		};
 
 		var move_velocity = 40; // 40cm/s
-		var turn_velocity = 60; // 60degree/s
+		var turn_velocity = 90; // 60degree/s
 
 		var option_key = {
 			11: { // body_move_velocity_key
@@ -440,6 +440,9 @@ module.exports = {
 		if (exist_distance) {
 			distance = distance[1] == 'cm' ? distance[0] : distance[0] * 100;
 			return_code.time = parseFloat((distance / move_velocity).toFixed(1));
+		}
+		if (key_code == '12') {
+			return_code.time = 1;
 		}
 
 		return_code.key_code = key_code;
