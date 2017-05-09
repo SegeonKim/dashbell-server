@@ -45,7 +45,7 @@ module.exports = {
 				if (!err) {
 					result.result = true;
 					result.key_code = data.key_code;
-					result.option = data.option;
+					result.option_code = data.option_code;
 					if (data.time) {
 						result.time = data.time
 					}
