@@ -429,6 +429,10 @@ module.exports = {
 			}
 		};
 
+		if (action == 'light_on' || action == 'light_off') {
+			option = action;
+		}
+
 		key_code += subject_key[subject];
 
 		if (subject == 'body') {
@@ -443,6 +447,7 @@ module.exports = {
 		}
 
 		option_code = option_key[key_code][option];
+
 		key_code = parseInt(key_code, 10);
 
 		if (exist_distance) {
