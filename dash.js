@@ -17,7 +17,7 @@ module.exports = {
 			key_code: 0,
 			option_code: null,
 			time: null
-		}
+		};
 		var sentence = '';
 
 		if (security_key != 'ZGFzaGJlbGxwcm9qZWN0') {
