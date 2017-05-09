@@ -429,12 +429,12 @@ module.exports = {
 			}
 		};
 
+		key_code += subject_key[subject];
+
 		if (action == 'light_on' || action == 'light_off') {
 			key_code = '3';
 			option = action;
 		}
-
-		key_code += subject_key[subject];
 
 		if (subject == 'body') {
 			if (action == 'turn' && option == 'front') {
