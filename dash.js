@@ -394,7 +394,7 @@ module.exports = {
 		};
 
 		var move_velocity = 60; // 40cm/s
-		var turn_velocity = 150; // 180degree/s
+		var turn_velocity = 160; // 180degree/s
 
 		var option_key = {
 			11: { // body_move_velocity_key
@@ -430,6 +430,7 @@ module.exports = {
 		};
 
 		if (action == 'light_on' || action == 'light_off') {
+			key_code = '3';
 			option = action;
 		}
 
