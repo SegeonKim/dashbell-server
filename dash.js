@@ -15,8 +15,8 @@ module.exports = {
 		var result = {
 			result: false,
 			key_code: 0,
-			option_code: null,
-			time: null
+			option_code: '',
+			time: ''
 		};
 		var sentence = '';
 
@@ -378,9 +378,9 @@ module.exports = {
 		var key_code = '';
 		var option_code = '';
 		var return_code = {
-			key_code: null,
-			option_code: null,
-			time: null
+			key_code: '',
+			option_code: '',
+			time: ''
 		};
 
 		var subject_key = {
