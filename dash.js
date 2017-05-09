@@ -394,7 +394,7 @@ module.exports = {
 		};
 
 		var move_velocity = 40; // 40cm/s
-		var turn_velocity = 90; // 60degree/s
+		var turn_velocity = 180; // 180degree/s
 
 		var option_key = {
 			11: { // body_move_velocity_key
