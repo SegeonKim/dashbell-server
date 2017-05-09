@@ -407,7 +407,8 @@ module.exports = {
 			},
 			22: { // head_turn_degree_key
 				left: 90,
-				right: -90
+				right: -90,
+				front: 0
 			},
 			23: {
 				front: 0,
@@ -430,8 +431,13 @@ module.exports = {
 		key_code += subject_key[subject];
 
 		if (subject == 'body') {
-			key_code += action_key[action];
-		} else if (subject == 'head') {
+			if (action == 'turn' && option == 'front') {
+				subject = 'head';
+			} else {
+				key_code += action_key[action];
+			}
+		}
+		if (subject == 'head') {
 			key_code += option == 'left' || option == 'right' ? 2 : 3;
 		}
 
