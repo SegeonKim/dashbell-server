@@ -393,8 +393,8 @@ module.exports = {
 			turn: 2
 		};
 
-		var move_velocity = 40; // 40cm/s
-		var turn_velocity = 180; // 180degree/s
+		var move_velocity = 60; // 40cm/s
+		var turn_velocity = 150; // 180degree/s
 
 		var option_key = {
 			11: { // body_move_velocity_key
@@ -403,7 +403,8 @@ module.exports = {
 			},
 			12: { // body_turn_velocity_key
 				left: turn_velocity,
-				right: (-1) * turn_velocity
+				right: (-1) * turn_velocity,
+				back: turn_velocity * 2
 			},
 			22: { // head_turn_degree_key
 				left: 90,
