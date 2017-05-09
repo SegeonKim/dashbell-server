@@ -41,16 +41,19 @@ module.exports = {
 				}
 			], function(err, data) {
 				if (!err) {
-					// result.result = true;
-					// result.key_code = data.key_code;
+					result.result = true;
+					result.key_code = data.key_code;
+					result.option = data.option;
+					if (data.time) {
+						result.time = data.time
+					}
 				} else if (err && err == 'stop') {
 					result.result = true;
 					result.key_code = 400;
 				} else if (err && sentence) {
 					self.leave_log(err + '\n' + sentence + '\n');
 				}
-				// res.end(JSON.stringify(result));
-				res.end(JSON.stringify(data));
+				res.end(JSON.stringify(result));
 			});
 		}
 	},
@@ -364,7 +367,79 @@ module.exports = {
 
 	make_keycode: function(command, callback) {
 		console.log('Finish : ', command);
-		callback(null, command);
+		var subject = command.subject;
+		var action = command.action;
+		var option = command.option;
+		var distance = command.distance;
+		var exist_distance = typeof(distance) == 'object' ? true : false;
+		var key_code = '';
+		var option_code = '';
+		var return_code = {};
+
+		var subject_key = {
+			body: 1,
+			head: 2,
+			head_light: 3,
+			body_light: 4
+		};
+		var action_key = {
+			move: 1,
+			turn: 2
+		};
+
+		var move_velocity = 40; // 40cm/s
+		var turn_velocity = 60; // 60degree/s
+
+		var option_key = {
+			11: { // body_move_velocity_key
+				front: move_velocity,
+				back: (-1) * move_velocity
+			},
+			12: { // body_turn_velocity_key
+				left: turn_velocity,
+				right: (-1) * turn_velocity
+			},
+			22: { // head_turn_degree_key
+				left: 90,
+				right: -90
+			},
+			23: {
+				up: -20,
+				down: 7.5
+			}
+			3: { // light_toggle_key
+				light_on: 1
+				light_off: 0
+			},
+			4: { // light_color_key
+				red: 100,
+				blue: 001,
+				yellow: 110,
+				green: 010,
+				white: 111
+			}
+		};
+
+		key_code += subject_key[subject];
+
+		if (subject == 'body') {
+			key_code += action_key[action];
+		} else if (subject == 'head') {
+			key_code += option == 'left' || option == 'right' ? 2 : 3;
+		}
+
+		option_code = option_key[key_code][option];
+		key_code = parseInt(key_code, 10);
+
+		if (exist_distance) {
+			distance = distance[1] == 'cm' ? distance[0] : distance[0] * 100;
+			return_code.time = parseFloat((distance / move_velocity).toFixed(1));
+		}
+
+		return_code.key_code = key_code;
+		return_code.option_code = option_code;
+
+		callback(null, return_code);
 	},
 
 	leave_log: function(sentence) {
