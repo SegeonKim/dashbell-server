@@ -14,7 +14,9 @@ module.exports = {
 		var security_key = req.body.security_key;
 		var result = {
 			result: false,
-			key_code: 0
+			key_code: 0,
+			option_code: null,
+			time: null
 		}
 		var sentence = '';
 
@@ -374,7 +376,11 @@ module.exports = {
 		var exist_distance = typeof(distance) == 'object' ? true : false;
 		var key_code = '';
 		var option_code = '';
-		var return_code = {};
+		var return_code = {
+			key_code: null,
+			option_code: null,
+			time: null
+		};
 
 		var subject_key = {
 			body: 1,
@@ -406,9 +412,9 @@ module.exports = {
 			23: {
 				up: -20,
 				down: 7.5
-			}
+			},
 			3: { // light_toggle_key
-				light_on: 1
+				light_on: 1,
 				light_off: 0
 			},
 			4: { // light_color_key
