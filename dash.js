@@ -55,6 +55,7 @@ module.exports = {
 				} else if (err && sentence) {
 					self.leave_log(err + '\n' + sentence + '\n');
 				}
+				console.log('result : ',result);
 				res.end(JSON.stringify(result));
 			});
 		}
@@ -434,6 +435,9 @@ module.exports = {
 		if (action == 'light_on' || action == 'light_off') {
 			key_code = '3';
 			option = action;
+		}
+		if (action == 'light_change') {
+			key_code = '4';
 		}
 
 		if (subject == 'body') {
