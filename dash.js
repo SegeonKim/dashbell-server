@@ -13,8 +13,8 @@ module.exports = {
 		var msg = req.body.msg;
 		var security_key = req.body.security_key;
 		var result = {
-			result: false,
-			key_code: 0,
+			result: 'false',
+			key_code: '',
 			option_code: '',
 			time: ''
 		};
@@ -43,14 +43,14 @@ module.exports = {
 				}
 			], function(err, data) {
 				if (!err) {
-					result.result = true;
+					result.result = 'true';
 					result.key_code = data.key_code;
 					result.option_code = data.option_code;
 					if (data.time) {
 						result.time = data.time
 					}
 				} else if (err && err == 'stop') {
-					result.result = true;
+					result.result = 'true';
 					result.key_code = 400;
 				} else if (err && sentence) {
 					self.leave_log(err + '\n' + sentence + '\n');
@@ -405,7 +405,7 @@ module.exports = {
 			12: { // body_turn_velocity_key
 				left: turn_velocity,
 				right: (-1) * turn_velocity,
-				back: turn_velocity * 2
+				back: turn_velocity * 2.5
 			},
 			22: { // head_turn_degree_key
 				left: 90,
