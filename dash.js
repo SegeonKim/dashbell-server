@@ -206,7 +206,7 @@ module.exports = {
 						}
 					}, function(is_on) {
 						if (is_on) {
-							callback('light_on');
+							callback(null, 'light_on');
 						} else {
 							async.map(classification_source.action.light_off, function(off, next) {
 								if (msg.indexOf(off) > -1) {
