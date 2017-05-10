@@ -16,7 +16,8 @@ module.exports = {
 			result: 'false',
 			key_code: '',
 			option_code: '',
-			time: ''
+			time: '',
+			result_string: ''
 		};
 		var sentence = '';
 
@@ -32,26 +33,30 @@ module.exports = {
 					sentence = str;
 					next(null, str);
 				}, function(msg, next) {
-					self.do_mecab(msg, next); // 형태소 분석
-				}, function(msg, next) {
 					self.check_stop(msg, next);
+				}, function(msg, next) {
+					self.do_mecab(msg, next); // 형태소 분석
 				}, function(msg, next) {
 					console.log('형태소 : ', msg);
 					self.parse(msg, next);
 				}, function(msg, next) {
+					self.make_result_string(msg, next);
+				}, function(msg, next) {
 					self.make_keycode(msg, next);
-				}
+				},
 			], function(err, data) {
 				if (!err) {
 					result.result = 'true';
 					result.key_code = data.key_code;
 					result.option_code = data.option_code;
+					result.result_string = data.result_string;
 					if (data.time) {
-						result.time = data.time
+						result.time = data.time;
 					}
 				} else if (err && err == 'stop') {
 					result.result = 'true';
 					result.key_code = 400;
+					result.result_string = '대시가 정지합니다.';
 				} else if (err && sentence) {
 					self.leave_log(err + '\n' + sentence + '\n');
 				}
@@ -353,8 +358,8 @@ module.exports = {
 	},
 
 	check_stop: function(msg, callback) {
-		async.map(msg, function(data, next) {
-			if (classification_source.stop.indexOf(data) > -1) {
+		async.map(classification_source.stop, function(data, next) {
+			if (msg.indexOf(data) > -1) {
 				next(true);
 			} else {
 				next();
@@ -380,9 +385,9 @@ module.exports = {
 		var return_code = {
 			key_code: '',
 			option_code: '',
-			time: ''
+			time: '',
+			result_string: ''
 		};
-		var fix_gap = 2;
 
 		var subject_key = {
 			body: 1,
@@ -395,8 +400,17 @@ module.exports = {
 			turn: 2
 		};
 
-		var move_velocity = 40; // 40cm/s
-		var turn_velocity = 90; // 180degree/s
+		var move_time = '';
+		var move_velocity = '';
+
+		if (exist_distance) {
+			distance = distance[1] == 'cm' ? distance[0] : distance[0] * 100;
+			move_time = (parseInt((distance / 100), 10) + 1) * 2;
+			move_velocity = distance / move_time;
+			move_velocity = move_velocity.toFixed(2);
+			return_code.time = move_time;
+		}
+		var turn_velocity = 360; // 360degree/s
 
 		var option_key = {
 			11: { // body_move_velocity_key
@@ -406,7 +420,7 @@ module.exports = {
 			12: { // body_turn_velocity_key
 				left: turn_velocity,
 				right: (-1) * turn_velocity,
-				back: turn_velocity * 2.5
+				back: turn_velocity
 			},
 			22: { // head_turn_degree_key
 				left: 90,
@@ -416,7 +430,7 @@ module.exports = {
 			23: {
 				front: 0,
 				up: -20,
-				down: 7.5
+				down: 7
 			},
 			3: { // light_toggle_key
 				light_on: 1,
@@ -458,20 +472,93 @@ module.exports = {
 
 		option_code = option_key[key_code][option];
 
-		// key_code = parseInt(key_code, 10);
-
-		if (exist_distance) {
-			distance = distance[1] == 'cm' ? distance[0] : distance[0] * 100;
-			return_code.time = parseFloat((distance / move_velocity).toFixed(1) * fix_gap).toString();
-		}
 		if (key_code == '12') {
-			return_code.time = fix_gap.toString();
+			if (option == 'back') {
+				return_code.time = 2;
+			} else {
+				return_code.time = 1.2;
+			}
+			return_code.time = return_code.time.toString();
 		}
 
 		return_code.key_code = key_code;
 		return_code.option_code = option_code.toString();
+		return_code.result_string = command.result_string;
 
 		callback(null, return_code);
+	},
+
+	make_result_string: function(msg, callback) {
+		var action = msg.action;
+		var subject = msg.subject;
+		var option = msg.option;
+		var distance = msg.distance;
+		var result_string = '대시가 ';
+
+
+		switch(action) {
+			case 'move':
+				if (option == 'front') {
+					result_string += '앞으로 ';
+				} else {
+					result_string += '뒤로 ';
+				}
+
+				if (typeof(distance) == 'object') {
+					result_string += distance[0] + distance[1] == 'cm' ? 'cm' : 'm' + ' ';
+				}
+
+				result_string += '이동합니다.';
+				break;
+			case 'turn':
+				if (subject == 'head') {
+					result_string += '머리를 ';
+				}
+
+				switch(option) {
+					case 'front':
+						result_string += '정면으로 ';
+						break;
+					case 'left':
+					 	result_string += '왼쪽으로 ';
+						break;
+					case 'right':
+						result_string += '오른쪽으로 ';
+						break;
+					case 'up':
+						result_string += '위쪽으로 ';
+						break;
+					case 'down':
+						result_string += '아래쪽으로 ';
+						break;
+				}
+
+				result_string += '돌립니다.';
+				break;
+			case 'light_change':
+				result_string += '불빛의 색깔을 ';
+
+				var color_key = {
+					red: '빨간색',
+			    blue: '파란색',
+			    yellow: '노란색',
+			    green: '초록색',
+			    white: '흰색'
+				};
+
+				result_string += color_key[option] + '으로 바꿉니다.';
+				break;
+			case 'light_on':
+				result_string += '눈의 불빛을 켭니다.';
+				break;
+			case 'light_off':
+				result_string += '눈의 불빛을 끕니다.';
+				break;
+		}
+
+		msg.result_string = result_string;
+
+		callback(null, msg);
 	},
 
 	leave_log: function(sentence) {
