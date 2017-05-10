@@ -423,11 +423,11 @@ module.exports = {
 				light_off: 0
 			},
 			4: { // light_color_key
-				red: 100,
-				blue: 001,
-				yellow: 110,
-				green: 010,
-				white: 111
+				red: '100',
+				blue: '001',
+				yellow: '110',
+				green: '010',
+				white: '111'
 			}
 		};
 
