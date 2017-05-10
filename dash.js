@@ -505,7 +505,7 @@ module.exports = {
 				}
 
 				if (typeof(distance) == 'object') {
-					result_string += distance[0] + distance[1] == 'cm' ? 'cm' : 'm' + ' ';
+					result_string += distance[0] + (distance[1] == 'cm' ? 'cm' : 'm') + ' ';
 				}
 
 				result_string += '이동합니다.';
@@ -533,7 +533,11 @@ module.exports = {
 						break;
 				}
 
-				result_string += '돌립니다.';
+				if (subject == 'head') {
+					result_string += '돌립니다.';
+				} else {
+					result_string += '돌아섭니다.';
+				}
 				break;
 			case 'light_change':
 				result_string += '불빛의 색깔을 ';
