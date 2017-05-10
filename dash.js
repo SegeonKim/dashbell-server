@@ -476,7 +476,7 @@ module.exports = {
 			if (option == 'back') {
 				return_code.time = 2;
 			} else {
-				return_code.time = 1.2;
+				return_code.time = 1.3;
 			}
 			return_code.time = return_code.time.toString();
 		}
