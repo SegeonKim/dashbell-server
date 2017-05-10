@@ -382,6 +382,7 @@ module.exports = {
 			option_code: '',
 			time: ''
 		};
+		var fix_gap = 2;
 
 		var subject_key = {
 			body: 1,
@@ -394,8 +395,8 @@ module.exports = {
 			turn: 2
 		};
 
-		var move_velocity = 60; // 40cm/s
-		var turn_velocity = 160; // 180degree/s
+		var move_velocity = 40; // 40cm/s
+		var turn_velocity = 90; // 180degree/s
 
 		var option_key = {
 			11: { // body_move_velocity_key
@@ -430,6 +431,10 @@ module.exports = {
 			}
 		};
 
+		if (action == 'turn' && option == 'front') {
+			subject = 'head';
+		}
+
 		key_code += subject_key[subject];
 
 		if (action == 'light_on' || action == 'light_off') {
@@ -453,17 +458,17 @@ module.exports = {
 
 		option_code = option_key[key_code][option];
 
-		key_code = parseInt(key_code, 10);
+		// key_code = parseInt(key_code, 10);
 
 		if (exist_distance) {
 			distance = distance[1] == 'cm' ? distance[0] : distance[0] * 100;
-			return_code.time = parseFloat((distance / move_velocity).toFixed(1)).toString();
+			return_code.time = parseFloat((distance / move_velocity).toFixed(1) * fix_gap).toString();
 		}
 		if (key_code == '12') {
-			return_code.time = '1';
+			return_code.time = fix_gap.toString();
 		}
 
-		return_code.key_code = key_code.toString();
+		return_code.key_code = key_code;
 		return_code.option_code = option_code.toString();
 
 		callback(null, return_code);
