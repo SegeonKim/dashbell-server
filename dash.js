@@ -409,6 +409,8 @@ module.exports = {
 			move_velocity = distance / move_time;
 			move_velocity = move_velocity.toFixed(2);
 			return_code.time = move_time;
+		} else {
+			move_velocity = 50;
 		}
 		var turn_velocity = 360; // 360degree/s
 
