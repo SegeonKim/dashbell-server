@@ -58,8 +58,10 @@ module.exports = {
 					result.key_code = 400;
 					result.result_string = '대시가 정지합니다.';
 				} else if (err && sentence) {
+					result.result_string = '다시 한번 말해주세요.';
 					self.leave_log(err + '\n' + sentence + '\n');
 				}
+
 				console.log('result : ',result);
 				res.end(JSON.stringify(result));
 			});
