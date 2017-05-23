@@ -27,11 +27,11 @@ module.exports = {
 		} else {
 			async.waterfall([
 				function(next) {
-					self.google_speech_api(msg, next); // google speech api로 목소리 분석
-				}, function(str, next) {
-					console.log('Sentence : ',str);
-					sentence = str;
-					next(null, str);
+				// 	self.google_speech_api(msg, next); // google speech api로 목소리 분석
+				// }, function(str, next) {
+					console.log('Sentence : ', msg);
+					sentence = msg;
+					next(null, msg);
 				}, function(msg, next) {
 					self.check_stop(msg, next);
 				}, function(msg, next) {
