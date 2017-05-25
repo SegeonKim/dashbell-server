@@ -516,7 +516,14 @@ module.exports = {
 				}
 
 				if (typeof(distance) == 'object') {
-					result_string += distance[0] + (distance[1] == 'cm' ? 'cm' : 'm') + ' ';
+					if(distance[1] == '칸') {
+						result_string += distance[0] + '칸' + ' ';
+					} else if (distance[1] == 'cm'){
+						result_string += distance[0] + 'cm' + ' ';
+					} else {
+						result_string += distance[0] + 'm' + ' ';
+					}
+					//result_string += distance[0] + (distance[1] == 'cm' ? 'cm' : 'm') + ' ';
 				}
 
 				result_string += '이동합니다.';
