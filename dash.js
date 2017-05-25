@@ -406,7 +406,14 @@ module.exports = {
 		var move_velocity = '';
 
 		if (exist_distance) {
-			distance = distance[1] == 'cm' ? distance[0] : distance[0] * 100;
+			if(distance[1] == '칸') {
+				distance = distance[0] / 10; // 한 칸을 10cm라고 정함
+			} else if (distance[1] == 'cm'){
+				distance = distance[0];
+			} else {
+				distance = distance[0] * 100;
+			}
+			//distance = distance[1] == 'cm' ? distance[0] : distance[0] * 100;  '칸' 추가 하기 전
 			move_time = (parseInt((distance / 100), 10) + 1) * 2;
 			move_velocity = distance / move_time;
 			move_velocity = move_velocity.toFixed(2);
