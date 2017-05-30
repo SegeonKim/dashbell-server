@@ -382,8 +382,6 @@ module.exports = {
 			'다섯': 5,
 			'여섯': 6
 		}
-		console.log('unit:', unit);
-		console.log(num_key[unit]);
 		callback(parseInt(num_key[unit],10));
 	},
 
