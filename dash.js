@@ -332,17 +332,18 @@ module.exports = {
 			if(msg.indexOf(units) > -1){
 				distance = msg[msg.indexOf(units) - 1];
 				unit = units;
+				console.log('ho');
 				if(unit == '칸' || unit == '번'){
-					if(parseInt(distance,10) > 0){
-							int_data = parseInt(distance,10);
+					unit = 'cm';
+					if(parseInt(distance,10) >0){
+							int_data = 10 * parseInt(distance, 10);
 							next(true);
 					} else {
 						self.get_number(distance, function(answer) {
 							int_data = 10 * answer;
-							unit = 'cm';
 							next(true);
-						}
-					});
+						});
+					}
 				} else {
 					int_data = parseInt(distance, 10);
 					next(true);
