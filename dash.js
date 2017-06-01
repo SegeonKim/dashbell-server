@@ -340,7 +340,39 @@ module.exports = {
 	get_distance: function(msg, callback) {
 		var self = this;
 		var distance = null;
-
+		var unit = '';
+		var index = 0;
+		var int_data = 0;
+		async.map(classification_source.unit, function(units, next) {
+			if(msg.indexOf(units) > -1){
+				distance = msg[msg.indexOf(units) - 1];
+				unit = units;
+				if(unit == '칸' || unit == '번') {
+					unit = 'cm';
+					if(parseInt(distance,10) >0) {
+							int_data = 10 * parseInt(distance, 10);
+							next(true);
+					} else {
+						self.get_number(distance, function(answer) {
+							int_data = 10 * answer;
+							next(true);
+						});
+					}
+				} else {
+					int_data = parseInt(distance, 10);
+					next(true);
+				}
+			} else {
+				next();
+			}
+		}, function(exist) {
+			if (exist) {
+					callback([int_data, unit]);
+			} else {
+				callback('no_distance');
+			}
+		});
+		/*
 		async.map(msg, function(data, next) {
 			var int_data = parseInt(data, 10);
 			if (int_data > 0) {
@@ -357,21 +389,20 @@ module.exports = {
 			} else {
 				callback('no_distance');
 			}
-		});
+		});*/
 	},
 
-	get_unit: function(msg, callback) {
-		var unit = '';
-		async.map(classification_source.unit, function(units, next) {
-			if (msg.indexOf(units) > -1) {
-				unit = units
-				next(true);
-			} else {
-				next();
-			}
-		}, function(exist) {
-			callback(unit || 'cm');
-		});
+	get_number: function(unit, callback) {
+		var num = 0;
+		var num_key = {
+			'한': 1,
+			'두': 2,
+			'세': 3,
+			'네': 4,
+			'다섯': 5,
+			'여섯': 6
+		}
+		callback(parseInt(num_key[unit],10));
 	},
 
 	check_stop: function(msg, callback) {
@@ -421,7 +452,12 @@ module.exports = {
 		var move_velocity = '';
 
 		if (exist_distance) {
-			distance = distance[1] == 'cm' ? distance[0] : distance[0] * 100;
+			if (distance[1] == 'cm'){
+				distance = distance[0];
+			} else {
+				distance = distance[0] * 100;
+			}
+			//distance = distance[1] == 'cm' ? distance[0] : distance[0] * 100;  '칸' 추가 하기 전
 			move_time = (parseInt((distance / 100), 10) + 1) * 2;
 			move_velocity = distance / move_time;
 			move_velocity = move_velocity.toFixed(2);
@@ -524,7 +560,14 @@ module.exports = {
 				}
 
 				if (typeof(distance) == 'object') {
-					result_string += distance[0] + (distance[1] == 'cm' ? 'cm' : 'm') + ' ';
+					if(distance[1] == '칸') {
+						result_string += distance[0] + '칸' + ' ';
+					} else if (distance[1] == 'cm'){
+						result_string += distance[0] + 'cm' + ' ';
+					} else {
+						result_string += distance[0] + 'm' + ' ';
+					}
+					//result_string += distance[0] + (distance[1] == 'cm' ? 'cm' : 'm') + ' ';
 				}
 
 				result_string += '이동합니다.';
