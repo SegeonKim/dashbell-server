@@ -61,13 +61,9 @@ module.exports = {
 						result.time = data.time;
 					}
 				} else if (err == 'launcher') {
-					if (data.result) {
-						result.result = 'true';
-						result.key_code = data.key_code;
-						result.result_string = data.result_string;
-					} else {
-						result.result = 'false';
-					}
+					result.result = 'true';
+					result.key_code = data.key_code;
+					result.result_string = data.result_string;
 				} else if (err && err == 'stop') {
 					result.result = 'true';
 					result.key_code = 400;
@@ -537,7 +533,7 @@ module.exports = {
 		}
 
 		return_code.key_code = key_code;
-		return_code.option_code = option_code.toString();
+		return_code.option_code = option_code ? option_code.toString() : '';
 		return_code.result_string = command.result_string;
 
 		callback(null, return_code);
