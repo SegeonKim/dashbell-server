@@ -332,10 +332,9 @@ module.exports = {
 			if(msg.indexOf(units) > -1){
 				distance = msg[msg.indexOf(units) - 1];
 				unit = units;
-				console.log('ho');
-				if(unit == '칸' || unit == '번'){
+				if(unit == '칸' || unit == '번') {
 					unit = 'cm';
-					if(parseInt(distance,10) >0){
+					if(parseInt(distance,10) >0) {
 							int_data = 10 * parseInt(distance, 10);
 							next(true);
 					} else {
