@@ -651,7 +651,7 @@ module.exports = {
 					if (is_reload) {
 						res.key_code = '52';
 						res.result_string = '대시가 공을 장전합니다.';
-						callback(launcher, res);
+						callback('launcher', res);
 					} else {
 						res.result = false;
 						callback(null, msg);
