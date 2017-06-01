@@ -12,6 +12,7 @@ module.exports = {
 		var self = this;
 		var msg = req.body.msg;
 		var security_key = req.body.security_key;
+		var mode = req.body.mode || null;
 		var result = {
 			result: 'false',
 			key_code: '',
@@ -38,6 +39,12 @@ module.exports = {
 					self.do_mecab(msg, next); // 형태소 분석
 				}, function(msg, next) {
 					console.log('형태소 : ', msg);
+					if (mode == 'launcher') {
+						self.launcher_parse(msg, next);
+					} else {
+						next(null, msg);
+					}
+				}, function(msg, next) {
 					self.parse(msg, next);
 				}, function(msg, next) {
 					self.make_result_string(msg, next);
@@ -52,6 +59,14 @@ module.exports = {
 					result.result_string = data.result_string;
 					if (data.time) {
 						result.time = data.time;
+					}
+				} else if (err == 'launcher') {
+					if (data.result) {
+						result.result = 'true';
+						result.key_code = data.key_code;
+						result.result_string = data.result_string;
+					} else {
+						result.result = 'false';
 					}
 				} else if (err && err == 'stop') {
 					result.result = 'true';
@@ -567,6 +582,44 @@ module.exports = {
 		msg.result_string = result_string;
 
 		callback(null, msg);
+	},
+
+	launcher_parse: function(msg, callback) {
+		var res = {
+			key_code: '',
+			result_string: ''
+		};
+
+		async.map(classification_source.launcher, function(launch, next) {
+			if (msg.indexOf(launch) > -1) {
+				next(true);
+			} else {
+				next();
+			}
+		}, function(is_launcher) {
+			if (is_launcher) {
+				res.key_code = '51';
+				res.result_string = '대시가 공을 발사합니다.';
+				callback('launcher', res);
+			} else {
+				async.map(classification_source.reload, function(reload, next) {
+					if (msg.indexOf(reload) > -1) {
+						next(true);
+					} else {
+						next();
+					}
+				}, function(is_reload) {
+					if (is_reload) {
+						res.key_code = '52';
+						res.result_string = '대시가 공을 장전합니다.';
+						callback(launcher, res);
+					} else {
+						res.result = false;
+						callback(null, msg);
+					}
+				});
+			}
+		});
 	},
 
 	leave_log: function(sentence) {
