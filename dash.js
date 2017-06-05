@@ -484,8 +484,8 @@ module.exports = {
 				down: 7
 			},
 			3: { // light_toggle_key
-				light_on: 1,
-				light_off: 0
+				light_on: '1',
+				light_off: '0'
 			},
 			4: { // light_color_key
 				red: '100',
@@ -533,7 +533,7 @@ module.exports = {
 		}
 
 		return_code.key_code = key_code;
-		return_code.option_code = option_code ? option_code.toString() : '';
+		return_code.option_code = option_code ? (typeof(option_code) == 'string' ? option_code : option_code.toString()) : '';
 		return_code.result_string = command.result_string;
 
 		callback(null, return_code);
