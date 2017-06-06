@@ -151,14 +151,10 @@ module.exports = {
 							next(err);
 						} else {
 							command.option = direction;
-							if (action == 'move') {
-								self.get_distance(msg, function(distance) {
-									command.distance = distance;
-									next();
-								});
-							} else {
+							self.get_distance(msg, function(distance) {
+								command.distance = distance;
 								next();
-							}
+							});
 						}
 					});
 				} else {
@@ -344,13 +340,22 @@ module.exports = {
 				distance = msg[msg.indexOf(units) - 1];
 				unit = units;
 				if(unit == '칸' || unit == '번') {
-					unit = 'cm';
-					if(parseInt(distance,10) >0) {
+					if(parseInt(distance,10) > 0) {
 							int_data = 10 * parseInt(distance, 10);
 							next(true);
 					} else {
 						self.get_number(distance, function(answer) {
 							int_data = 10 * answer;
+							next(true);
+						});
+					}
+				} else if (unit == '바퀴') {
+					if(parseInt(distance,10) > 0) {
+						int_data = parseInt(distance,10);
+						next(true);
+					} else {
+						self.get_number(distance, function(answer){
+							int_data = answer;
 							next(true);
 						});
 					}
@@ -447,20 +452,7 @@ module.exports = {
 		var move_time = '';
 		var move_velocity = '';
 
-		if (exist_distance) {
-			if (distance[1] == 'cm'){
-				distance = distance[0];
-			} else {
-				distance = distance[0] * 100;
-			}
-			//distance = distance[1] == 'cm' ? distance[0] : distance[0] * 100;  '칸' 추가 하기 전
-			move_time = (parseInt((distance / 100), 10) + 1) * 2;
-			move_velocity = distance / move_time;
-			move_velocity = move_velocity.toFixed(2);
-			return_code.time = move_time;
-		} else {
-			move_velocity = 50;
-		}
+
 		var turn_velocity = 360; // 360degree/s
 
 		var option_key = {
@@ -474,14 +466,14 @@ module.exports = {
 				back: turn_velocity
 			},
 			22: { // head_turn_degree_key
-				left: 90,
-				right: -90,
-				front: 0
+				left: '90',
+				right: '-90',
+				front: '0'
 			},
 			23: {
-				front: 0,
-				up: -20,
-				down: 7
+				front: '0',
+				up: '-20',
+				down: '7'
 			},
 			3: { // light_toggle_key
 				light_on: '1',
@@ -495,6 +487,31 @@ module.exports = {
 				white: '111'
 			}
 		};
+
+		if (exist_distance) {
+			if (distance[1] == 'cm'){
+				distance = distance[0];
+			}	else if (distance[1] == '번') {
+				if (option_key == 11) {
+					distance = distance[0];
+				} else if (option_key == 12) {
+					distance = distance[0] / 10;
+				}
+			} else if (distance[1] == '칸') {
+				distance = distance[0];
+			} else if (distance[1] == '바퀴') {
+				distance = distance[0];
+			} else {
+				distance = distance[0] * 100;	// check meter
+			}
+			//distance = distance[1] == 'cm' ? distance[0] : distance[0] * 100;  '칸' 추가 하기 전
+			move_time = (parseInt((distance / 100), 10) + 1) * 2;
+			move_velocity = distance / move_time;
+			move_velocity = move_velocity.toFixed(2);
+			return_code.time = move_time;
+		} else {
+			move_velocity = 50;
+		}
 
 		if (action == 'turn' && option == 'front') {
 			subject = 'head';
@@ -524,12 +541,24 @@ module.exports = {
 		option_code = option_key[key_code][option];
 
 		if (key_code == '12') {
-			if (option == 'back') {
-				return_code.time = 2;
+			if(exist_distance){
+				if (option == 'back') {
+					return_code.time = 2 * distance;
+				}	else if (option == 'rotate'){
+					return_code.time = 4 * distance;
+				} else {
+					return_code.time = 1.3 * distance;
+				}
 			} else {
-				return_code.time = 1.3;
+				if (option == 'back') {
+					return_code.time = 2;
+				}	else if (option == 'rotate'){
+					return_code.time = 4;
+				} else {
+					return_code.time = 1.3;
+				}
 			}
-			return_code.time = return_code.time.toString();
+			return_code.time = return_code.time.toFixed(3).toString();
 		}
 
 		return_code.key_code = key_code;
@@ -589,6 +618,8 @@ module.exports = {
 					case 'down':
 						result_string += '아래쪽으로 ';
 						break;
+					case 'rotate':
+					result_string += ''
 				}
 
 				if (subject == 'head') {
