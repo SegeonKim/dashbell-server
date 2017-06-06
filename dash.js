@@ -538,7 +538,7 @@ module.exports = {
 			key_code += option == 'left' || option == 'right' ? 2 : 3;
 		}
 
-		option_code = option_key[key_code][option];
+
 
 		if (key_code == '12') {
 			if(exist_distance){
@@ -560,7 +560,7 @@ module.exports = {
 			}
 			return_code.time = return_code.time.toFixed(3).toString();
 		}
-
+		option_code = option_key[key_code][option];
 		return_code.key_code = key_code;
 		return_code.option_code = option_code ? (typeof(option_code) == 'string' ? option_code : option_code.toString()) : '';
 		return_code.result_string = command.result_string;
