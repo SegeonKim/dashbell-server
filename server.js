@@ -22,6 +22,7 @@ router.get('/', function(req, res) {
 router.post('/transcribe', function(req, res) {
 	dash.transcribe(req, res);
 });
+//dash.transcribe();
 http.createServer(app).listen(PORT);
 
 process.on('uncaughtException', function (err) {

@@ -13,6 +13,9 @@ module.exports = {
 		var msg = req.body.msg;
 		var security_key = req.body.security_key;
 		var mode = req.body.mode || null;
+		//var msg = '오른쪽으로 돌아';
+		//var security_key = 'ZGFzaGJlbGxwcm9qZWN0';
+		//var mode = null;
 		var result = {
 			result: 'false',
 			key_code: '',
@@ -148,6 +151,13 @@ module.exports = {
 				} else if (!is_light) { // move or turn 경우 방향과 거리 받아오기
 					self.get_direction(msg, function(err, direction) {
 						if (err) {
+							if (command.action == 'turn') {
+								command.option = 'left';
+								self.get_distance(msg, function(distance) {
+									command.distance = distance;
+									next();
+								});
+							}
 							next(err);
 						} else {
 							command.option = direction;
@@ -540,7 +550,7 @@ module.exports = {
 			key_code += option == 'left' || option == 'right' ? 2 : 3;
 		}
 
-
+		option_code = option_key[key_code][option];
 
 		if (key_code == '12') {
 			if(exist_distance){
@@ -562,7 +572,7 @@ module.exports = {
 			}
 			return_code.time = return_code.time.toFixed(3).toString();
 		}
-		option_code = option_key[key_code][option];
+
 		return_code.key_code = key_code;
 		return_code.option_code = option_code ? (typeof(option_code) == 'string' ? option_code : option_code.toString()) : '';
 		return_code.result_string = command.result_string;
