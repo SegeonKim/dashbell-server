@@ -455,6 +455,31 @@ module.exports = {
 
 		var turn_velocity = 360; // 360degree/s
 
+		if (exist_distance) {
+			if (distance[1] == 'cm'){
+				distance = distance[0];
+			}	else if (distance[1] == '번') {
+				if (option_key == 11) {
+					distance = distance[0];
+				} else if (option_key == 12) {
+					distance = distance[0] / 10;
+				}
+			} else if (distance[1] == '칸') {
+				distance = distance[0];
+			} else if (distance[1] == '바퀴') {
+				distance = distance[0];
+			} else {
+				distance = distance[0] * 100;	// check meter
+			}
+			//distance = distance[1] == 'cm' ? distance[0] : distance[0] * 100;  '칸' 추가 하기 전
+			move_time = (parseInt((distance / 100), 10) + 1) * 2;
+			move_velocity = distance / move_time;
+			move_velocity = move_velocity.toFixed(2);
+			return_code.time = move_time;
+		} else {
+			move_velocity = 50;
+		}
+
 		var option_key = {
 			11: { // body_move_velocity_key
 				front: move_velocity,
@@ -488,30 +513,7 @@ module.exports = {
 			}
 		};
 
-		if (exist_distance) {
-			if (distance[1] == 'cm'){
-				distance = distance[0];
-			}	else if (distance[1] == '번') {
-				if (option_key == 11) {
-					distance = distance[0];
-				} else if (option_key == 12) {
-					distance = distance[0] / 10;
-				}
-			} else if (distance[1] == '칸') {
-				distance = distance[0];
-			} else if (distance[1] == '바퀴') {
-				distance = distance[0];
-			} else {
-				distance = distance[0] * 100;	// check meter
-			}
-			//distance = distance[1] == 'cm' ? distance[0] : distance[0] * 100;  '칸' 추가 하기 전
-			move_time = (parseInt((distance / 100), 10) + 1) * 2;
-			move_velocity = distance / move_time;
-			move_velocity = move_velocity.toFixed(2);
-			return_code.time = move_time;
-		} else {
-			move_velocity = 50;
-		}
+
 
 		if (action == 'turn' && option == 'front') {
 			subject = 'head';
@@ -586,7 +588,11 @@ module.exports = {
 
 				if (typeof(distance) == 'object') {
 					if(distance[1] == '칸') {
-						result_string += distance[0] + '칸' + ' ';
+						result_string += (distance[0] / 10) + '칸' + ' ';
+					} else if (distance[1] == '번') {
+						result_string += (distance[0] / 10) + '번' + ' ';
+					} else if (distance[1] == '바퀴') {
+						result_string += distance[0] + '바퀴' + ' ';
 					} else if (distance[1] == 'cm'){
 						result_string += distance[0] + 'cm' + ' ';
 					} else {
@@ -625,6 +631,11 @@ module.exports = {
 				if (subject == 'head') {
 					result_string += '돌립니다.';
 				} else {
+					if (distance[1] == '번') {
+						result_string += (distance[0] / 10) + '번' + ' ';
+					} else if (distance[1] == '바퀴') {
+						result_string += distance[0] + '바퀴' + ' ';
+					}
 					result_string += '돌아섭니다.';
 				}
 				break;
