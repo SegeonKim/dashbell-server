@@ -443,6 +443,9 @@ module.exports = {
 		var action = command.action;
 		var option = command.option;
 		var distance = command.distance;
+		if (distance[0] == 'NaN') {
+			distance[0] = 0;
+		}
 		var exist_distance = typeof(distance) == 'object' ? true : false;
 		var key_code = '';
 		var option_code = '';
