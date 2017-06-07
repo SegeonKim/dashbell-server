@@ -474,9 +474,9 @@ module.exports = {
 			if (distance[1] == 'cm'){
 				distance = distance[0];
 			}	else if (distance[1] == '번') {
-				if (option_key == 11) {
+				if (action == 'move') {
 					distance = distance[0];
-				} else if (option_key == 12) {
+				} else if (action == 'turn') {
 					distance = distance[0] / 10;
 				}
 			} else if (distance[1] == '칸') {
