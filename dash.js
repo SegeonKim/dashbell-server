@@ -560,9 +560,7 @@ module.exports = {
 			if (exist_distance) {
 				if (distance[1] == '바퀴' || distance[1] == '번') {
 					return_code.time = 2.64 * distance;
-					break;
-				}
-				if (option == 'back') {
+				} else if (option == 'back') {
 					return_code.time = 1.32 * distance;
 				} else {
 					return_code.time = 0.82 * distance;
@@ -570,9 +568,7 @@ module.exports = {
 			} else {
 				if (distance[1] == '바퀴' || distance[1] == '번') {
 					return_code.time = 2.64;
-					break;
-				}
-				if (option == 'back') {
+				} else if (option == 'back') {
 					return_code.time = 1.32;
 				} else {
 					return_code.time = 0.82;
