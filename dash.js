@@ -351,7 +351,7 @@ module.exports = {
 				distance = msg[msg.indexOf(units) - 1];
 				unit = units;
 				if(unit == '칸' || unit == '번') {
-					if(parseInt(distance,10) > 0) {
+					if(parseInt(distance, 10) > 0) {
 							int_data = 10 * parseInt(distance, 10);
 							next(true);
 					} else {
@@ -361,11 +361,11 @@ module.exports = {
 						});
 					}
 				} else if (unit == '바퀴') {
-					if(parseInt(distance,10) > 0) {
-						int_data = parseInt(distance,10);
+					if(parseInt(distance, 10) > 0) {
+						int_data = parseInt(distance, 10);
 						next(true);
 					} else {
-						self.get_number(distance, function(answer){
+						self.get_number(distance, function(answer) {
 							int_data = answer;
 							next(true);
 						});
@@ -418,7 +418,7 @@ module.exports = {
 			'아홉': 9,
 			'열': 10
 		}
-		callback(parseInt(num_key[unit],10));
+		callback(parseInt(num_key[unit], 10));
 	},
 
 	check_stop: function(msg, callback) {
@@ -559,7 +559,7 @@ module.exports = {
 
 		if (key_code == '12') {
 			if (exist_distance) {
-				if (distance[1] == '바퀴' || distance[1] == '번') {
+				if (command.distance[1] == '바퀴' || command.distance[1] == '번') {
 					return_code.time = 2.64 * distance;
 				} else if (option == 'back') {
 					return_code.time = 1.32 * distance;
@@ -567,7 +567,7 @@ module.exports = {
 					return_code.time = 0.82 * distance;
 				}
 			} else {
-				if (distance[1] == '바퀴' || distance[1] == '번') {
+				if (command.distance[1] == '바퀴' || command.distance[1] == '번') {
 					return_code.time = 2.64;
 				} else if (option == 'back') {
 					return_code.time = 1.32;
