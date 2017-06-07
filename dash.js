@@ -578,6 +578,23 @@ module.exports = {
 			return_code.time = return_code.time.toFixed(3).toString();
 		}
 
+		if (key_code == '11' && exist_distance) {
+			console.log('\n\n' + distance + '\n\n');
+			var tmp_opt;
+			var tmp_time;
+
+			switch(distance) {
+				case 10:
+				case 20:
+				case 30:
+				case 40:
+				case 50:
+				case 60:
+			}
+			return_code.option_code = tmp_opt;
+			return_code.time = tmp_time;
+		}
+
 		return_code.key_code = key_code;
 		return_code.option_code = option_code ? (typeof(option_code) == 'string' ? option_code : option_code.toString()) : '';
 		return_code.result_string = command.result_string;
