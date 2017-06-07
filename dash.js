@@ -558,19 +558,23 @@ module.exports = {
 
 		if (key_code == '12') {
 			if(exist_distance){
+				if (distance[1] == '바퀴' || distance[1] == '번') {
+					return_code.time = 4 * distance;
+					break;
+				}
 				if (option == 'back') {
 					return_code.time = 2 * distance;
-				}	else if (option == 'rotate'){
-					return_code.time = 4 * distance;
-				} else {
+				}	else {
 					return_code.time = 1.3 * distance;
 				}
 			} else {
+				if (distance[1] == '바퀴' || distance[1] == '번') {
+					return_code.time = 4;
+					break;
+				}
 				if (option == 'back') {
 					return_code.time = 2;
-				}	else if (option == 'rotate'){
-					return_code.time = 4;
-				} else {
+				}	else {
 					return_code.time = 1.3;
 				}
 			}
@@ -638,7 +642,6 @@ module.exports = {
 					case 'down':
 						result_string += '아래쪽으로 ';
 						break;
-					case 'rotate':
 					result_string += ''
 				}
 
