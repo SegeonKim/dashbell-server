@@ -443,9 +443,6 @@ module.exports = {
 		var action = command.action;
 		var option = command.option;
 		var distance = command.distance;
-		if (distance[0] == 'NaN') {
-			distance[0] = 0;
-		}
 		var exist_distance = typeof(distance) == 'object' ? true : false;
 		var key_code = '';
 		var option_code = '';
@@ -586,15 +583,30 @@ module.exports = {
 			var tmp_opt;
 			var tmp_time;
 
-			switch(distance) {
-				case 10:
-				case 20:
-				case 30:
-				case 40:
-				case 50:
-				case 60:
+			switch (distance) {
+       	case 10:
+         	tmp_opt = '7.6';
+         	tmp_time = '2.0';
+         	break;
+       	case 20:
+         	tmp_opt = '13.7';
+         	tmp_time = '2.0';
+         	break;
+       	case 30:
+         	tmp_opt = '18.7';
+         	tmp_time = '2.0';
+         	break;
+       	case 40:
+         	tmp_opt = '19.6';
+         	tmp_time = '2.5';
+         	break;
+       	case 50:
+         	tmp_opt = '23.6';
+         	tmp_time = '2.5';
+         	break;
 			}
-			return_code.option_code = tmp_opt;
+
+			option_code = tmp_opt;
 			return_code.time = tmp_time;
 		}
 
