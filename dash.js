@@ -157,8 +157,9 @@ module.exports = {
 									command.distance = distance;
 									next();
 								});
+							} else {
+								next(err);
 							}
-							next(err);
 						} else {
 							command.option = direction;
 							self.get_distance(msg, function(distance) {
