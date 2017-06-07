@@ -491,18 +491,18 @@ module.exports = {
 			move_velocity = move_velocity.toFixed(2);
 			return_code.time = move_time;
 		} else {
-			move_velocity = 50;
+			move_velocity = '50.00';
 		}
 
 		var option_key = {
 			11: { // body_move_velocity_key
 				front: move_velocity,
-				back: (-1) * move_velocity
+				back: '-' + move_velocity
 			},
 			12: { // body_turn_velocity_key
-				left: turn_velocity,
-				right: (-1) * turn_velocity,
-				back: turn_velocity
+				left: '180.0',
+				right: '-180.0',
+				back: '180.0'
 			},
 			22: { // head_turn_degree_key
 				left: '90',
@@ -559,19 +559,19 @@ module.exports = {
 		if (key_code == '12') {
 			if(exist_distance){
 				if (option == 'back') {
-					return_code.time = 2 * distance;
+					return_code.time = 1.32 * distance;
 				}	else if (option == 'rotate'){
-					return_code.time = 4 * distance;
+					return_code.time = 2.64 * distance;
 				} else {
-					return_code.time = 1.3 * distance;
+					return_code.time = 0.82 * distance;
 				}
 			} else {
 				if (option == 'back') {
-					return_code.time = 2;
+					return_code.time = 1.32;
 				}	else if (option == 'rotate'){
-					return_code.time = 4;
+					return_code.time = 2.64;
 				} else {
-					return_code.time = 1.3;
+					return_code.time = 0.82;
 				}
 			}
 			return_code.time = return_code.time.toFixed(3).toString();
