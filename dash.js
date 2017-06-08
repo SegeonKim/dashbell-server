@@ -580,39 +580,39 @@ module.exports = {
 			}
 			return_code.time = return_code.time.toFixed(3).toString();
 		}
-
+/*
 		if (key_code == '11' && exist_distance) {
 			console.log('\n\n' + distance + '\n\n');
 			var tmp_opt;
 			var tmp_time;
 
-			// switch (distance) {
-      //  	case 10:
-      //    	tmp_opt = '7.6';
-      //    	tmp_time = '2.0';
-      //    	break;
-      //  	case 20:
-      //    	tmp_opt = '13.7';
-      //    	tmp_time = '2.0';
-      //    	break;
-      //  	case 30:
-      //    	tmp_opt = '18.7';
-      //    	tmp_time = '2.0';
-      //    	break;
-      //  	case 40:
-      //    	tmp_opt = '19.6';
-      //    	tmp_time = '2.5';
-      //    	break;
-      //  	case 50:
-      //    	tmp_opt = '23.6';
-      //    	tmp_time = '2.5';
-      //    	break;
-			// }
+			switch (distance) {
+       	case 10:
+         	tmp_opt = '7.6';
+         	tmp_time = '2.0';
+         	break;
+       	case 20:
+         	tmp_opt = '13.7';
+         	tmp_time = '2.0';
+         	break;
+       	case 30:
+         	tmp_opt = '18.7';
+         	tmp_time = '2.0';
+         	break;
+       	case 40:
+         	tmp_opt = '19.6';
+         	tmp_time = '2.5';
+         	break;
+       	case 50:
+         	tmp_opt = '23.6';
+         	tmp_time = '2.5';
+         	break;
+			}
 
 			option_code = tmp_opt;
 			return_code.time = tmp_time;
 		}
-
+*/
 		return_code.key_code = key_code;
 		return_code.option_code = option_code ? (typeof(option_code) == 'string' ? option_code : option_code.toString()) : '';
 		return_code.result_string = command.result_string;
