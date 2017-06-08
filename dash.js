@@ -616,6 +616,9 @@ module.exports = {
 		}
 */
 		return_code.key_code = key_code;
+		if (option_code == 'NaN') {
+			option_code = '30.00';
+		}
 		return_code.option_code = option_code ? (typeof(option_code) == 'string' ? option_code : option_code.toString()) : '';
 		return_code.result_string = command.result_string;
 
