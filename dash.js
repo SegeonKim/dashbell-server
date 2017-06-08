@@ -640,9 +640,9 @@ module.exports = {
 				} else {
 					result_string += '뒤로 ';
 				}
-				console.log("distance : ",distance[0]);
+
 				if (typeof(distance) == 'object') {
-					if (distance[0] != NaN) {
+					if (distance[0] > 0) {
 						if (distance[1] == '칸') {
 							result_string += (distance[0] / 10) + '칸' + ' ';
 						} else if (distance[1] == '번') {
@@ -654,8 +654,6 @@ module.exports = {
 						} else {
 							result_string += distance[0] + 'm' + ' ';
 						}
-					} else {
-
 					}
 					//result_string += distance[0] + (distance[1] == 'cm' ? 'cm' : 'm') + ' ';
 				}
