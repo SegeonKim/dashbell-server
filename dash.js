@@ -487,8 +487,11 @@ module.exports = {
 				distance = distance[0] * 100;	// check meter
 			}
 			//distance = distance[1] == 'cm' ? distance[0] : distance[0] * 100;  '칸' 추가 하기 전
-			move_time = (parseInt((distance / 100), 10) + 1) * 2;
-			move_velocity = distance / move_time;
+			// move_time = (parseInt((distance / 100), 10) + 1) * 2;
+			// move_velocity = distance / move_time;
+			move_time = parseInt((distance / 31), 10) * 0.5 + 2;
+			var x = parseInt((distance / 20), 10);
+			move_velocity = (distance + 5.2 + (121/15)*(1-Math.pow(8/11, x))) / move_time;
 			move_velocity = move_velocity.toFixed(2);
 			return_code.time = move_time;
 		} else {
@@ -583,28 +586,28 @@ module.exports = {
 			var tmp_opt;
 			var tmp_time;
 
-			switch (distance) {
-       	case 10:
-         	tmp_opt = '7.6';
-         	tmp_time = '2.0';
-         	break;
-       	case 20:
-         	tmp_opt = '13.7';
-         	tmp_time = '2.0';
-         	break;
-       	case 30:
-         	tmp_opt = '18.7';
-         	tmp_time = '2.0';
-         	break;
-       	case 40:
-         	tmp_opt = '19.6';
-         	tmp_time = '2.5';
-         	break;
-       	case 50:
-         	tmp_opt = '23.6';
-         	tmp_time = '2.5';
-         	break;
-			}
+			// switch (distance) {
+      //  	case 10:
+      //    	tmp_opt = '7.6';
+      //    	tmp_time = '2.0';
+      //    	break;
+      //  	case 20:
+      //    	tmp_opt = '13.7';
+      //    	tmp_time = '2.0';
+      //    	break;
+      //  	case 30:
+      //    	tmp_opt = '18.7';
+      //    	tmp_time = '2.0';
+      //    	break;
+      //  	case 40:
+      //    	tmp_opt = '19.6';
+      //    	tmp_time = '2.5';
+      //    	break;
+      //  	case 50:
+      //    	tmp_opt = '23.6';
+      //    	tmp_time = '2.5';
+      //    	break;
+			// }
 
 			option_code = tmp_opt;
 			return_code.time = tmp_time;
