@@ -640,7 +640,7 @@ module.exports = {
 				} else {
 					result_string += '뒤로 ';
 				}
-
+				console.log("distance : ",distance[0]);
 				if (typeof(distance) == 'object') {
 					if (distance[0] != NaN) {
 						if (distance[1] == '칸') {
