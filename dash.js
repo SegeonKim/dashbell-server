@@ -145,12 +145,12 @@ module.exports = {
 			function(action, next) {
 				command.action = action;
 
-				if (is_light && action == 'light_change') { // 라이트 색깔 바꾸는 경우 무슨 색인지 받아오기
+				if (action == 'light_change') { // 라이트 색깔 바꾸는 경우 무슨 색인지 받아오기
 					self.get_color(msg, function(err, color) {
 						command.option = color;
 						next(err || null);
 					});
-				} else if (!is_light) { // move or turn 경우 방향과 거리 받아오기
+				} else if (!is_light && actoin != 'light_change') { // move or turn 경우 방향과 거리 받아오기
 					self.get_direction(msg, function(err, direction) {
 						if (err) {
 							if (command.action == 'turn') {
