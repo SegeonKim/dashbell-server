@@ -642,7 +642,7 @@ module.exports = {
 				}
 
 				if (typeof(distance) == 'object') {
-					if (distance[0] != 'NaN') {
+					if (distance[0] != NaN) {
 						if (distance[1] == '칸') {
 							result_string += (distance[0] / 10) + '칸' + ' ';
 						} else if (distance[1] == '번') {
@@ -654,6 +654,8 @@ module.exports = {
 						} else {
 							result_string += distance[0] + 'm' + ' ';
 						}
+					} else {
+
 					}
 					//result_string += distance[0] + (distance[1] == 'cm' ? 'cm' : 'm') + ' ';
 				}
