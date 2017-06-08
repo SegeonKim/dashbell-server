@@ -62,6 +62,8 @@ module.exports = {
 					result.result_string = data.result_string;
 					if (data.time) {
 						result.time = data.time;
+					} else {
+						result.time = 5.0;
 					}
 				} else if (err == 'launcher') {
 					result.result = 'true';
@@ -495,7 +497,7 @@ module.exports = {
 			move_velocity = move_velocity.toFixed(2);
 			return_code.time = move_time;
 		} else {
-			move_velocity = '50.00';
+			move_velocity = '30.00';
 		}
 
 		var option_key = {
@@ -637,16 +639,18 @@ module.exports = {
 				}
 
 				if (typeof(distance) == 'object') {
-					if(distance[1] == '칸') {
-						result_string += (distance[0] / 10) + '칸' + ' ';
-					} else if (distance[1] == '번') {
-						result_string += (distance[0] / 10) + '번' + ' ';
-					} else if (distance[1] == '바퀴') {
-						result_string += distance[0] + '바퀴' + ' ';
-					} else if (distance[1] == 'cm'){
-						result_string += distance[0] + 'cm' + ' ';
-					} else {
-						result_string += distance[0] + 'm' + ' ';
+					if (distance[0] != 'NaN') {
+						if (distance[1] == '칸') {
+							result_string += (distance[0] / 10) + '칸' + ' ';
+						} else if (distance[1] == '번') {
+							result_string += (distance[0] / 10) + '번' + ' ';
+						} else if (distance[1] == '바퀴') {
+							result_string += distance[0] + '바퀴' + ' ';
+						} else if (distance[1] == 'cm'){
+							result_string += distance[0] + 'cm' + ' ';
+						} else {
+							result_string += distance[0] + 'm' + ' ';
+						}
 					}
 					//result_string += distance[0] + (distance[1] == 'cm' ? 'cm' : 'm') + ' ';
 				}
