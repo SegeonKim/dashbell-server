@@ -493,7 +493,7 @@ module.exports = {
 			// move_velocity = distance / move_time;
 			move_time = parseInt((distance / 31), 10) * 0.5 + 2;
 			var x = parseInt((distance / 20), 10);
-			move_velocity = (distance + 5.2 + (121/15)*(1-Math.pow(8/11, x))) / move_time;
+			move_velocity = (distance + x + 5.2 + (121/15)*(1-Math.pow(8/11, x))) / move_time;
 			move_velocity = move_velocity.toFixed(2);
 			return_code.time = move_time;
 		} else {
